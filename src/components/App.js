@@ -1,39 +1,42 @@
-import { Component } from "react";
+import { Component, useState } from "react";
 import { FeedbackList } from "./Feedback/Feedback";
 import { Statistics } from "./Statistics/Statistics";
 
-export class App extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad:0
-  }
- 
-  changeStatistics = (type) => {
-    return this.setState(prevState => ({
-      [type]: prevState[type]+1
-    }))
+export const App = () => {
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+
+  const changeStatistics = (type) => {
+    if (type === "good") {
+      return setGood(prevState=>prevState+1)
+    }
+    else
+      if (type === "neutral") {
+        setNeutral(prevState=>prevState+1)
+      }
+    else setBad (prevState=>prevState+1)
   }
 
-   countTotalFeedback = () => {
-   let totalFeedback = this.state.good + this.state.neutral + this.state.bad;
-  return totalFeedback
+  const countTotalFeedback = () => {
+    let totalFeedback = good + neutral + bad;
+    return totalFeedback
   }
 
-  countPositive = () => {
-    const positivePercent = this.state.good*100 / this.countTotalFeedback();
+  const countPositive = () => {
+    const positivePercent = good*100 / countTotalFeedback();
     return Math.ceil(positivePercent)
   }
-
-  render() {
-    return <div>
+  return  <div>
       <h1>Leave your feedback</h1>
-      <FeedbackList onChangeFeedback={this.changeStatistics} options={Object.keys(this.state)}   
+      <FeedbackList onChangeFeedback={changeStatistics} options={["good", "neutral", "bad"]}   
       />
       
-      <Statistics feedback={this.state} onCountTotal={this.countTotalFeedback}
-        onCountPositive={ this.countPositive} />
+      <Statistics feedback={[good, neutral, bad]} onCountTotal={countTotalFeedback}
+        onCountPositive={countPositive} />
        
     </div>
  }
-};
+ 
+  
+
