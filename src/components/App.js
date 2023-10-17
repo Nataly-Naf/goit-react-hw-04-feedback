@@ -1,4 +1,4 @@
-import { Component, useState } from "react";
+import {  useState } from "react";
 import { FeedbackList } from "./Feedback/Feedback";
 import { Statistics } from "./Statistics/Statistics";
 
